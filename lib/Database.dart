@@ -21,7 +21,7 @@ part 'Database.g.dart'; // the generated code will be there
 /// This class uses Floor for database operations and includes entities such as
 /// Customer, Airplane, Flight, and Reservation. It provides access to DAOs for
 /// interacting with these entities.
-@TypeConverters([DateTimeConverter])
+//@TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Customer, Airplane, Flight, Reservation])
 abstract class AppDatabase extends FloorDatabase {
   /// A getter for the [CustomerDAO].

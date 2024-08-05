@@ -1,37 +1,48 @@
 import 'package:floor/floor.dart';
 import 'Flight.dart';
 
-/// A Data Access Object (DAO) for managing CRUD operations for [Flight] entities.
+/// DAO for accessing and managing [Flight] entities in the database.
 @dao
 abstract class FlightDAO {
-  /// Retrieves all flights from the database.
+  /// Fetches all [Flight] records from the database.
   ///
-  /// Returns a list of [Flight] objects.
+  /// Returns a [Future] containing a list of all flights.
   @Query('SELECT * FROM Flight')
   Future<List<Flight>> getAllFlights();
 
-  /// Finds a flight by its [id].
+  /// Retrieves a [Flight] by its unique identifier.
   ///
-  /// Returns a single [Flight] object if found, otherwise null.
-  @Query('SELECT * FROM Flight WHERE id = :id')
-  Future<Flight?> findFlightById(int id);
+  /// Parameters:
+  /// - [flightId]: The unique identifier of the flight to be retrieved.
+  ///
+  /// Returns a [Future] containing the flight with the given id, or null if not found.
+  @Query('SELECT * FROM Flight WHERE id = :flightId')
+  Future<Flight?> findFlightById(int flightId);
 
-  /// Inserts a new [Flight] into the database.
+  /// Adds a new [Flight] record to the database.
   ///
-  /// Takes a [Flight] object as a parameter.
+  /// Parameters:
+  /// - [newFlight]: The flight object to be inserted.
+  ///
+  /// Returns a [Future] indicating the completion of the operation.
   @insert
-  Future<void> insertFlight(Flight flight);
+  Future<void> insertFlight(Flight newFlight);
 
-  /// Updates an existing [Flight] in the database.
+  /// Modifies an existing [Flight] record in the database.
   ///
-  /// Takes a [Flight] object as a parameter.
+  /// Parameters:
+  /// - [updatedFlight]: The flight object containing updated data.
+  ///
+  /// Returns a [Future] indicating the completion of the operation.
   @update
-  Future<void> updateFlight(Flight flight);
+  Future<void> updateFlight(Flight updatedFlight);
 
-  /// Deletes a [Flight] from the database.
+  /// Removes a [Flight] record from the database.
   ///
-  /// Takes a [Flight] object as a parameter.
-  /// Returns the number of rows affected.
+  /// Parameters:
+  /// - [flightToRemove]: The flight object to be deleted.
+  ///
+  /// Returns a [Future] containing the number of rows deleted.
   @delete
-  Future<int> deleteFlight(Flight flight);
+  Future<int> deleteFlight(Flight flightToRemove);
 }

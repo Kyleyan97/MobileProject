@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:final_project/AppLocalizations.dart';
-import 'package:final_project/main.dart';
-import 'package:final_project/FlightList/Flight.dart';
-import 'package:final_project/FlightList/FlightDAO.dart';
-import 'package:final_project/Database.dart';
+import '../AppLocalizations.dart';
+import '../main.dart';
+import '../FlightList/Flight.dart';
+import '../FlightList/FlightDAO.dart';
+import '../Database.dart';
+import 'FlightDetailPage.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
-/// This class represents the flight list page.
-class FlightListPage extends StatefulWidget {
+/// This class represents the flight page.
+class FlightPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _FlightListPageState();
   }
 }
 
-/// State class for [FlightListPage].
-class _FlightListPageState extends State<FlightListPage> {
+/// State class for [FlightPage].
+class _FlightListPageState extends State<FlightPage> {
   late EncryptedSharedPreferences savedData;
   late FlightDAO myFlightDAO;
   List<Flight> flights = [];
@@ -58,7 +59,7 @@ class _FlightListPageState extends State<FlightListPage> {
 
   /// Initialize the database and load flights.
   void initDb() async {
-    final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+    final database = await $FloorAppDatabase.databaseBuilder('database.db').build();
     myFlightDAO = database.flightDAO;
     loadFlights();
   }
@@ -116,7 +117,7 @@ class _FlightListPageState extends State<FlightListPage> {
         departureTime != null &&
         arrivalTime != null) {
       final flight = Flight(
-        Flight.ID++,
+        Flight.currentId++,
         flightNumberController.text,
         departureCityController.text,
         destinationCityController.text,
@@ -281,7 +282,7 @@ class _FlightListPageState extends State<FlightListPage> {
                         children: [
                           const SizedBox(width: 50),
                           Text(
-                            "From: ${flight.departureCity} To: ${flight.destinationCity}",
+                            "${AppLocalizations.of(context).translate('from')}: ${flight.departureCity} ${AppLocalizations.of(context).translate('to')}: ${flight.destinationCity}",
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
@@ -301,337 +302,238 @@ class _FlightListPageState extends State<FlightListPage> {
     );
   }
 
-  /// Build the details of the selected flight.
-  Widget flightDetails() {
-    if (selectedFlight == null) {
-      return Center(
-        child: Text(AppLocalizations.of(context).translate('no_flight_selected'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red)),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(AppLocalizations.of(context).translate('flight_detail'), style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold)),
-            Table(
-              columnWidths: const {
-                0: FixedColumnWidth(150.0),
-                1: FlexColumnWidth(),
-              },
-              children: [
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('flight_number'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedFlight!.flightNumber}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('departure_city'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedFlight!.departureCity}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('destination_city'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedFlight!.destinationCity}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context).translate('departure_time'),
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '${TimeOfDay.fromDateTime(selectedFlight!.departureTime).format(context)}',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(
-                      AppLocalizations.of(context).translate('arrival_time'),
-                      style: const TextStyle(
-                        color: Colors.blue,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '${TimeOfDay.fromDateTime(selectedFlight!.arrivalTime).format(context)}',
-                      style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      isUpdatingFlight = true;
-                      _flightToUpdateId = selectedFlight!.id;
-                      flightNumberController.text = selectedFlight!.flightNumber;
-                      departureCityController.text = selectedFlight!.departureCity;
-                      destinationCityController.text = selectedFlight!.destinationCity;
-                      departureTime = selectedFlight!.departureTime;
-                      arrivalTime = selectedFlight!.arrivalTime;
-                    });
-                  },
-                  child: Text(AppLocalizations.of(context).translate('update_flight')),
-                ),
-                ElevatedButton(
-                  onPressed: () => _removeFlight(selectedFlight!),
-                  child: Text(AppLocalizations.of(context).translate('delete_flight')),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedFlight = null;
-                    });
-                  },
-                  child: Text(AppLocalizations.of(context).translate('return_to_list')),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-  }
+  @override
+  Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    var height = size.height;
+    var width = size.width;
 
-  /// Remove a flight after confirmation.
-  void _removeFlight(Flight flight) async {
-    bool confirm = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('delete_flight_title')),
-          content: Text(AppLocalizations.of(context).translate('delete_flight_confirmation')),
-          actions: <Widget>[
-            TextButton(
-              child: Text(AppLocalizations.of(context).translate('yes')),
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-            ),
-            TextButton(
-              child: Text(AppLocalizations.of(context).translate('No')),
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-            ),
-          ],
+    /// Select time for departure or arrival.
+    void _selectTime(BuildContext context, bool isDeparture) async {
+      final TimeOfDay? time = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
+      );
+      if (time != null) {
+        setState(() {
+          if (isDeparture) {
+            departureTime = DateTime(0, 1, 1, time.hour, time.minute); // 只保存时间部分
+          } else {
+            arrivalTime = DateTime(0, 1, 1, time.hour, time.minute); // 只保存时间部分
+          }
+        });
+      }
+    }
+
+    void updateFlight() async {
+      if (flightNumberController.text.isNotEmpty &&
+          departureCityController.text.isNotEmpty &&
+          destinationCityController.text.isNotEmpty &&
+          departureTime != null &&
+          arrivalTime != null &&
+          _flightToUpdateId != null) {
+
+        bool confirm = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(AppLocalizations.of(context).translate('confirm_to_save')),
+              content: Text(AppLocalizations.of(context).translate('confirm_update_content')),
+              actions: <Widget>[
+                TextButton(
+                  child: Text(AppLocalizations.of(context).translate('yes')),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+                TextButton(
+                  child: Text(AppLocalizations.of(context).translate('No')),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+              ],
+            );
+          },
         );
-      },
-    );
 
-    if (confirm) {
-      await myFlightDAO.deleteFlight(flight);
-      loadFlights();
-      setState(() {
-        selectedFlight = null;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).translate('flight_deleted_successfully'))),
+        if (confirm) {
+          final flight = Flight(
+            _flightToUpdateId!,
+            flightNumberController.text,
+            departureCityController.text,
+            destinationCityController.text,
+            departureTime!,
+            arrivalTime!,
+            1,
+          );
+          await myFlightDAO.updateFlight(flight);
+          loadFlights();
+          clearInputFields();
+          setState(() {
+            isUpdatingFlight = false;
+            selectedFlight = null;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(AppLocalizations.of(context).translate('flight_updated'))),
+          );
+        }
+      } else {
+        showAlertDialog(
+          AppLocalizations.of(context).translate('error'),
+          AppLocalizations.of(context).translate('all_fields_required'),
+        );
+      }
+    }
+
+    /// Build the form for adding or updating a flight.
+    /// Build the form for adding or updating a flight.
+    Widget addOrUpdateFlightForm() {
+      return SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextField(
+                controller: flightNumberController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('flight_number_input'),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: departureCityController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('departure_city_input'),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: destinationCityController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).translate('destination_city_input'),
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _selectTime(context, true),
+                      child: AbsorbPointer(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context).translate('departure_time_input'),
+                            border: OutlineInputBorder(),
+                          ),
+                          controller: TextEditingController(
+                            text: departureTime != null
+                                ? TimeOfDay.fromDateTime(departureTime!).format(context)
+                                : '',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _selectTime(context, false),
+                      child: AbsorbPointer(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context).translate('arrival_time_input'),
+                            border: OutlineInputBorder(),
+                          ),
+                          controller: TextEditingController(
+                            text: arrivalTime != null
+                                ? TimeOfDay.fromDateTime(arrivalTime!).format(context)
+                                : '',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (isUpdatingFlight) {
+                        updateFlight();
+                      } else {
+                        addFlight();
+                      }
+                    },
+                    child: Text(isUpdatingFlight
+                        ? AppLocalizations.of(context).translate('update_flight')
+                        : AppLocalizations.of(context).translate('add_flight')),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        isAddingNewFlight = false;
+                        isUpdatingFlight = false;
+                        selectedFlight = null;
+                      });
+                    },
+                    child: Text(AppLocalizations.of(context).translate('cancel')),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       );
     }
-  }
 
-  /// Build the form for adding or updating a flight.
-  Widget addOrUpdateFlightForm() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            TextField(
-              controller: flightNumberController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).translate('flight_number_input'),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: departureCityController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).translate('departure_city_input'),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextField(
-              controller: destinationCityController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context).translate('destination_city_input'),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _selectTime(context, true), // 使用新的选择时间方法
-                    child: AbsorbPointer(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context).translate('departure_time_input'),
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: TextEditingController(
-                          text: departureTime != null
-                              ? TimeOfDay.fromDateTime(departureTime!).format(context)
-                              : '',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _selectTime(context, false), // 使用新的选择时间方法
-                    child: AbsorbPointer(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context).translate('arrival_time_input'),
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: TextEditingController(
-                          text: arrivalTime != null
-                              ? TimeOfDay.fromDateTime(arrivalTime!).format(context)
-                              : '',
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                if (isUpdatingFlight) {
-                  updateFlight();
-                } else {
-                  addFlight();
-                }
-              },
-              child: Text(isUpdatingFlight
-                  ? AppLocalizations.of(context).translate('update_flight')
-                  : AppLocalizations.of(context).translate('add_flight')),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  /// Select time for departure or arrival.
-  void _selectTime(BuildContext context, bool isDeparture) async {
-    final TimeOfDay? time = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
-    );
-    if (time != null) {
-      setState(() {
-        if (isDeparture) {
-          departureTime = DateTime(0, 1, 1, time.hour, time.minute); // 只保存时间部分
-        } else {
-          arrivalTime = DateTime(0, 1, 1, time.hour, time.minute); // 只保存时间部分
-        }
-      });
-    }
-  }
-
-  /// Update a flight in the database.
-  void updateFlight() async {
-    if (flightNumberController.text.isNotEmpty &&
-        departureCityController.text.isNotEmpty &&
-        destinationCityController.text.isNotEmpty &&
-        departureTime != null &&
-        arrivalTime != null &&
-        _flightToUpdateId != null) {
-
-      bool confirm = await showDialog(
+    void onDeleteFlight(Flight flight) {
+      showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(AppLocalizations.of(context).translate('confirm_to_save')),
-            content: Text(AppLocalizations.of(context).translate('confirm_update_content')),
+            title: Text(AppLocalizations.of(context).translate('delete_flight_title')),
+            content: Text(AppLocalizations.of(context).translate('delete_flight_confirmation')),
             actions: <Widget>[
               TextButton(
                 child: Text(AppLocalizations.of(context).translate('yes')),
                 onPressed: () {
-                  Navigator.of(context).pop(true);
+                  myFlightDAO.deleteFlight(flight);
+                  loadFlights();
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(AppLocalizations.of(context).translate('flight_deleted'))),
+                  );
+                  setState(() {
+                    selectedFlight = null;
+                  });
                 },
               ),
               TextButton(
                 child: Text(AppLocalizations.of(context).translate('No')),
                 onPressed: () {
-                  Navigator.of(context).pop(false);
+                  Navigator.of(context).pop();
                 },
               ),
             ],
           );
         },
       );
-
-      if (confirm) {
-        final flight = Flight(
-          _flightToUpdateId!,
-          flightNumberController.text,
-          departureCityController.text,
-          destinationCityController.text,
-          departureTime!,
-          arrivalTime!,
-          1,
-        );
-        await myFlightDAO.updateFlight(flight);
-        loadFlights();
-        clearInputFields();
-        setState(() {
-          isUpdatingFlight = false;
-          selectedFlight = null;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context).translate('flight_updated'))),
-        );
-      }
-    } else {
-      showAlertDialog(
-        AppLocalizations.of(context).translate('error'),
-        AppLocalizations.of(context).translate('all_fields_required'),
-      );
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var height = size.height;
-    var width = size.width;
+    void onReturnToList() {
+      setState(() {
+        selectedFlight = null;
+      });
+    }
 
     Widget responsiveLayout() {
       if (!isAddingNewFlight && !isUpdatingFlight) {
@@ -645,11 +547,24 @@ class _FlightListPageState extends State<FlightListPage> {
               ),
               Expanded(
                 flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: flightDetails(),
+                child: selectedFlight == null ? Container() : FlightDetailPage(
+                  flight: selectedFlight!,
+                  onUpdateFlight: (flight) {
+                    setState(() {
+                      selectedFlight = flight;
+                      isUpdatingFlight = true;
+                      _flightToUpdateId = selectedFlight!.id;
+                      flightNumberController.text = selectedFlight!.flightNumber;
+                      departureCityController.text = selectedFlight!.departureCity;
+                      destinationCityController.text = selectedFlight!.destinationCity;
+                      departureTime = selectedFlight!.departureTime;
+                      arrivalTime = selectedFlight!.arrivalTime;
+                    });
+                  },
+                  onDeleteFlight: onDeleteFlight,
+                  onReturnToList: onReturnToList,
                 ),
-              )
+              ),
             ],
           );
         } else {
@@ -658,7 +573,23 @@ class _FlightListPageState extends State<FlightListPage> {
           } else {
             return Padding(
               padding: const EdgeInsets.all(8.0),
-              child: flightDetails(),
+              child: FlightDetailPage(
+                flight: selectedFlight!,
+                onUpdateFlight: (flight) {
+                  setState(() {
+                    selectedFlight = flight;
+                    isUpdatingFlight = true;
+                    _flightToUpdateId = selectedFlight!.id;
+                    flightNumberController.text = selectedFlight!.flightNumber;
+                    departureCityController.text = selectedFlight!.departureCity;
+                    destinationCityController.text = selectedFlight!.destinationCity;
+                    departureTime = selectedFlight!.departureTime;
+                    arrivalTime = selectedFlight!.arrivalTime;
+                  });
+                },
+                onDeleteFlight: onDeleteFlight,
+                onReturnToList: onReturnToList,
+              ),
             );
           }
         }
@@ -712,20 +643,6 @@ class _FlightListPageState extends State<FlightListPage> {
         title: Text(AppLocalizations.of(context).translate('flight_list_title')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: pressAddFlight,
-          ),
-          IconButton(
-            icon: Icon(Icons.clear),
-            onPressed: () {
-              setState(() {
-                selectedFlight = null;
-                isAddingNewFlight = false;
-                isUpdatingFlight = false;
-              });
-            },
-          ),
 
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {

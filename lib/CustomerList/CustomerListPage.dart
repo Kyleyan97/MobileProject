@@ -237,7 +237,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
                         children: [
                           const SizedBox(width: 50),
                           Text(
-                            "Address: ${customer.address}, Birthday: ${DateFormat.yMd().format(customer.birthday)}",
+                            "${AppLocalizations.of(context).translate('address')}: ${customer.address}, ${AppLocalizations.of(context).translate('date_birth')}: ${DateFormat.yMd().format(customer.birthday)}",
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
@@ -267,7 +267,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(AppLocalizations.of(context).translate('customer_detail'), style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context).translate('customer_detail'), style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold)),
             Table(
               columnWidths: const {
                 0: FixedColumnWidth(150.0),
@@ -276,26 +276,26 @@ class _CustomerListPageState extends State<CustomerListPage> {
               children: [
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('last_name'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedCustomer!.lastname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('last_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.lastname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('first_name'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedCustomer!.firstname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('first_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.firstname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('address'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedCustomer!.address}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('address'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.address}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('birthday'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${DateFormat.yMd().format(selectedCustomer!.birthday)}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('birthday'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${DateFormat.yMd().format(selectedCustomer!.birthday)}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
               ],
@@ -622,20 +622,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
         title: Text(AppLocalizations.of(context).translate('customer_list_title')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: pressAddCustomer,
-          ),
-          IconButton(
-            icon: Icon(Icons.clear),
-            onPressed: () {
-              setState(() {
-                selectedCustomer = null;
-                isAddingNewCustomer = false;
-                isUpdatingCustomer = false;
-              });
-            },
-          ),
+
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               MyApp.of(context)!.changeLanguage(locale); // Replace with your language change logic

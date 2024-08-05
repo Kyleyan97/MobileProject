@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'AirplaneList/AirplaneListPage.dart';
 import 'AppLocalizations.dart';
 import 'CustomerList/CustomerListPage.dart';
-import 'FlightList/FlightListPage.dart';
+import 'FlightList/FlightPage.dart';
 import 'Reservation/ReservationPage.dart';
 
 
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp>{
         '/home': (context) => MyHomePage(title: AppLocalizations.of(context).translate('project_title')),
         '/CustomerListPage': (context) { return CustomerListPage(); },
         '/AirplaneListPage': (context) { return AirplaneListPage(); },
-        '/FlightListPage': (context) { return FlightListPage(); },
+        '/FlightPage': (context) { return FlightPage(); },
         '/ReservationPage': (context) { return ReservationPage(); },
       },
       debugShowCheckedModeBanner: false,
@@ -176,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// Navigates to the Flight List Page.
   void flightListButtonClicked(){
-    Navigator.pushNamed(context, "/FlightListPage");
+    Navigator.pushNamed(context, "/FlightPage");
   }
 
   /// Navigates to the Reservation Page.

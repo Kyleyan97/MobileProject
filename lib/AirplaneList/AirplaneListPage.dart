@@ -246,7 +246,7 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
                         children: [
                           const SizedBox(width: 50),
                           Text(
-                            "Passengers: ${airplane.maxNumberOfPassenger}, Speed: ${airplane.maxSpeed}, Distance: ${airplane.maxDistance}",
+                            "${AppLocalizations.of(context).translate('passengers')}: ${airplane.maxNumberOfPassenger}, ${AppLocalizations.of(context).translate('speed')}: ${airplane.maxSpeed}, ${AppLocalizations.of(context).translate('distance')}: ${airplane.maxDistance}",
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
@@ -277,7 +277,7 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(AppLocalizations.of(context).translate('airplane_detail'), style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context).translate('airplane_detail'), style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold)),
             Table(
               columnWidths: const {
                 0: FixedColumnWidth(150.0),
@@ -286,26 +286,26 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
               children: [
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('airplane_type'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedAirplane!.type}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('airplane_type'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedAirplane!.type}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('max_passengers'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedAirplane!.maxNumberOfPassenger}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('max_passengers'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedAirplane!.maxNumberOfPassenger}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('max_speed'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedAirplane!.maxSpeed}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('max_speed'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedAirplane!.maxSpeed}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
                 TableRow(
                   children: [
-                    Text(AppLocalizations.of(context).translate('max_distance'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
-                    Text('${selectedAirplane!.maxDistance}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.center),
+                    Text(AppLocalizations.of(context).translate('max_distance'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedAirplane!.maxDistance}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
                   ],
                 ),
               ],
@@ -535,20 +535,6 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
           title: Text(AppLocalizations.of(context).translate('airplane_list_title')),
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: pressAddAirplane,
-            ),
-            IconButton(
-              icon: Icon(Icons.clear),
-              onPressed: () {
-                setState(() {
-                  selectedAirplane = null;
-                  isAddingNewAirplane = false;
-                  isUpdatingAirplane = false;
-                });
-              },
-            ),
 
             PopupMenuButton<Locale>(
               onSelected: (Locale locale) {

@@ -376,7 +376,7 @@ class ReservationPageState extends State<ReservationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(AppLocalizations.of(context).translate('reservation_detail'),style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),),
+            Text(AppLocalizations.of(context).translate('reservation_detail'),style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),),
             Expanded(
               child: Table(
                 columnWidths: const {
@@ -386,50 +386,50 @@ class ReservationPageState extends State<ReservationPage> {
                 children: [
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('customer'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${selectedCustomer.firstname} ${selectedCustomer.lastname}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center,),
+                      Text(AppLocalizations.of(context).translate('customer'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${selectedCustomer.firstname} ${selectedCustomer.lastname}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left,),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('flight_date'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${formattedDate}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('flight_date'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${formattedDate}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('flight_number'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${selectedFlight.flightNumber}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('flight_number'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${selectedFlight.flightNumber}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('departure_city'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${selectedFlight.departureCity}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('departure_city'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${selectedFlight.departureCity}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('destination_city'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${selectedFlight.destinationCity}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('destination_city'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${selectedFlight.destinationCity}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('departure_time'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${formattedDepartTime}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('departure_time'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${formattedDepartTime}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('arrival_time'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${formattedArrivalTime}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('arrival_time'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${formattedArrivalTime}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                   TableRow(
                     children: [
-                      Text(AppLocalizations.of(context).translate('airplane_type'), style: const TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center),
-                      Text('${selectedAirplane.type}', style: const TextStyle(color: Colors.black, fontSize: 16),textAlign: TextAlign.center),
+                      Text(AppLocalizations.of(context).translate('airplane_type'), style: const TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),textAlign: TextAlign.left),
+                      Text('${selectedAirplane.type}', style: const TextStyle(color: Colors.black, fontSize: 15),textAlign: TextAlign.left),
                     ],
                   ),
                 ],
@@ -880,23 +880,6 @@ class ReservationPageState extends State<ReservationPage> {
         title: Text(AppLocalizations.of(context).translate('reservation_title')),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: pressAddReservation,
-          ),
-          IconButton(
-              icon: Icon(Icons.clear),
-              onPressed:(){
-                setState(() {
-                  selectedReservation = null;
-                  setState(() {
-                    isAddingNewReservation = false;
-                    isUpdatingReservation = false;
-                    _updateReservationChanged = false;
-                  });
-                });
-              },
-          ),
 
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
