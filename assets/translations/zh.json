@@ -15,15 +15,15 @@
 
   "__comment__": "main.dart",
 
-  "project_title": "项目首页",
-  "customer_list": "客户列表",
-  "airplane_list": "飞机列表",
-  "flight_list":  "航班列表",
-  "reservation_list": "预定列表",
+  "project_title": "首页",
+  "customer_list": "客户页面",
+  "airplane_list": "飞机页面",
+  "flight_list":  "航班页面",
+  "reservation_list": "预定页面",
 
   "__comment__": "ReservationPage.dart",
-  "reservation_title": "预定列表",
-  "welcome_to_reservation_list": "欢迎来到预定列表，单击查看预定详细信息，长按删除.",
+  "reservation_title": "预定页面",
+  "welcome_to_reservation_list": "欢迎来到预定页面，查看预定详细信息请单击，删除请长按.",
   "reservation_instructions": "操作指南",
   "instruction_detail": "欢迎来到航班预定系统！添加新预定，请按下方‘+’按钮。查看或修改预定信息请单击原预定信息。删除预定信息请长按预定信息。",
   "empty_list": "当前没有任何预定",

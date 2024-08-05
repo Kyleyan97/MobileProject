@@ -14,7 +14,7 @@ import 'FlightList/FlightDAO.dart';
 import 'Reservation/Reservation.dart';
 import 'Reservation/ReservationDAO.dart';
 
-part 'AppDatabase.g.dart'; // the generated code will be there
+part 'Database.g.dart'; // the generated code will be there
 
 /// A database that holds the entities of the application.
 ///

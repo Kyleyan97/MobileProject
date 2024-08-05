@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:final_project/AppLocalizations.dart';
 import 'package:final_project/main.dart';
 import 'package:final_project/FlightList/Flight.dart';
 import 'package:final_project/FlightList/FlightDAO.dart';
-import 'package:final_project/AppDatabase.dart';
+import 'package:final_project/Database.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 /// This class represents the flight list page.
@@ -31,7 +30,6 @@ class _FlightListPageState extends State<FlightListPage> {
   DateTime? arrivalTime;
   int? _flightToUpdateId;
 
-  @override
   @override
   void initState() {
     super.initState();
@@ -185,12 +183,12 @@ class _FlightListPageState extends State<FlightListPage> {
   /// Build the list of flights.
   Widget flightList() {
     return Padding(
-      padding: const EdgeInsets.all(1.0),
+      padding: const EdgeInsets.all(8.0),
       child: Scrollbar(
         controller: _scrollController,
         thickness: 8.0,
-        radius: Radius.circular(10.0),
-        thumbVisibility: false,
+        radius: Radius.circular(20.0),
+        thumbVisibility: true,
         child: flights.isEmpty
             ? Center(
           child: Text(AppLocalizations.of(context).translate('no_flight_available')),
@@ -241,9 +239,17 @@ class _FlightListPageState extends State<FlightListPage> {
                 child: Container(
                   decoration: BoxDecoration(
                     color: index % 2 == 0
-                        ? Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1)
-                        : Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(5),
+                        ? Colors.lightBlueAccent.withOpacity(0.2)
+                        : Colors.lightBlueAccent.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                        offset: Offset(2.0, 2.0),
+                      ),
+                    ],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,6 +271,7 @@ class _FlightListPageState extends State<FlightListPage> {
                             style: const TextStyle(
                               fontSize: 18,
                               color: Colors.black,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
@@ -278,6 +285,7 @@ class _FlightListPageState extends State<FlightListPage> {
                             style: const TextStyle(
                               fontSize: 14,
                               color: Colors.grey,
+                              fontStyle: FontStyle.italic,
                             ),
                           ),
                         ],
@@ -297,11 +305,11 @@ class _FlightListPageState extends State<FlightListPage> {
   Widget flightDetails() {
     if (selectedFlight == null) {
       return Center(
-        child: Text(AppLocalizations.of(context).translate('no_flight_selected'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue)),
+        child: Text(AppLocalizations.of(context).translate('no_flight_selected'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.red)),
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -701,46 +709,47 @@ class _FlightListPageState extends State<FlightListPage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(AppLocalizations.of(context).translate('flight_list_title')),
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          actions: <Widget>[
-      IconButton(
-      icon: Icon(Icons.add),
-      onPressed: pressAddFlight,
-    ),
-    IconButton(
-    icon: Icon(Icons.clear),
-    onPressed: () {
-    setState(() {
-    selectedFlight = null;
-    isAddingNewFlight = false;
-    isUpdatingFlight = false;
-    });
-    },
-    ),
-    IconButton(
-      icon: const Icon(Icons.info),
-      onPressed: () {
-        _showUsageDialog(context);
-      },
-    ),
-            PopupMenuButton<Locale>(
-              onSelected: (Locale locale) {
-                MyApp.of(context)!.changeLanguage(locale);
-              },
-              icon: Icon(Icons.language),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
-                PopupMenuItem<Locale>(
-                  value: const Locale('en', 'CA'),
-                  child: Text('English'),
-                ),
-                PopupMenuItem<Locale>(
-                  value: const Locale('zh', 'Hans'),
-                  child: Text('简体中文'),
-                ),
-              ],
-            ),
-          ],
+        title: Text(AppLocalizations.of(context).translate('flight_list_title')),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: pressAddFlight,
+          ),
+          IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              setState(() {
+                selectedFlight = null;
+                isAddingNewFlight = false;
+                isUpdatingFlight = false;
+              });
+            },
+          ),
+
+          PopupMenuButton<Locale>(
+            onSelected: (Locale locale) {
+              MyApp.of(context)!.changeLanguage(locale);
+            },
+            icon: Icon(Icons.language_sharp),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
+              PopupMenuItem<Locale>(
+                value: const Locale('en', 'CA'),
+                child: Text('English'),
+              ),
+              PopupMenuItem<Locale>(
+                value: const Locale('zh', 'Hans'),
+                child: Text('中文'),
+              ),
+            ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              _showUsageDialog(context);
+            },
+          ),
+        ],
       ),
       body: responsiveLayout(),
       floatingActionButton: ((width > height) && (width > 720) ||

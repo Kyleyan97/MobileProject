@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For date formatting
 import 'package:final_project/CustomerList/Customer.dart';
 import 'package:final_project/CustomerList/CustomerDAO.dart';
-import '../AppDatabase.dart';
+import '../Database.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 import 'package:final_project/AppLocalizations.dart';
 import 'package:final_project/main.dart';
@@ -636,17 +636,11 @@ class _CustomerListPageState extends State<CustomerListPage> {
               });
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.info),
-            onPressed: () {
-              _showUsageDialog(context);
-            },
-          ),
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               MyApp.of(context)!.changeLanguage(locale); // Replace with your language change logic
             },
-            icon: Icon(Icons.language),
+            icon: Icon(Icons.language_sharp),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
               PopupMenuItem<Locale>(
                 value: const Locale('en', 'CA'),
@@ -654,9 +648,15 @@ class _CustomerListPageState extends State<CustomerListPage> {
               ),
               PopupMenuItem<Locale>(
                 value: const Locale('zh', 'Hans'),
-                child: Text('简体中文'),
+                child: Text('中文'),
               ),
             ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              _showUsageDialog(context);
+            },
           ),
         ],
       ),

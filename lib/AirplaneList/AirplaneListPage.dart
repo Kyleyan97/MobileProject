@@ -3,7 +3,7 @@ import 'package:final_project/main.dart';
 import 'package:flutter/material.dart';
 import 'package:final_project/AirplaneList/Airplane.dart';
 import 'package:final_project/AirplaneList/AirplaneDAO.dart';
-import 'package:final_project/AppDatabase.dart';
+import 'package:final_project/Database.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 class AirplaneListPage extends StatefulWidget {
@@ -549,17 +549,12 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
                 });
               },
             ),
-            IconButton(
-              icon: const Icon(Icons.info),
-              onPressed: () {
-                _showUsageDialog(context);
-              },
-            ),
+
             PopupMenuButton<Locale>(
               onSelected: (Locale locale) {
                 MyApp.of(context)!.changeLanguage(locale); // 替换成您的语言切换逻辑
               },
-              icon: Icon(Icons.language),
+              icon: Icon(Icons.language_sharp),
               itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
                 PopupMenuItem<Locale>(
                   value: const Locale('en', 'CA'),
@@ -567,9 +562,15 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
                 ),
                 PopupMenuItem<Locale>(
                   value: const Locale('zh', 'Hans'),
-                  child: Text('简体中文'),
+                  child: Text('中文'),
                 ),
               ],
+            ),
+            IconButton(
+              icon: const Icon(Icons.info_outline),
+              onPressed: () {
+                _showUsageDialog(context);
+              },
             ),
           ],
         ),

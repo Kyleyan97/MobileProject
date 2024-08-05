@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
 import '../AirplaneList/Airplane.dart';
-import '../AppDatabase.dart';
+import '../Database.dart';
 import '../AppLocalizations.dart';
 import '../CustomerList/Customer.dart';
 import '../FlightList/Flight.dart';
@@ -897,12 +897,7 @@ class ReservationPageState extends State<ReservationPage> {
                 });
               },
           ),
-          IconButton(
-            icon: const Icon(Icons.info),
-            onPressed: () {
-              _showUsageDialog(context);
-            },
-          ),
+
           PopupMenuButton<Locale>(
             onSelected: (Locale locale) {
               MyApp.of(context)!.changeLanguage(locale);
@@ -915,9 +910,15 @@ class ReservationPageState extends State<ReservationPage> {
               ),
               PopupMenuItem<Locale>(
                 value: const Locale('zh', 'Hans'),
-                child: Text('简体中文'),
+                child: Text('中文'),
               ),
             ],
+          ),
+          IconButton(
+            icon: const Icon(Icons.info_outline),
+            onPressed: () {
+              _showUsageDialog(context);
+            },
           ),
         ],
 

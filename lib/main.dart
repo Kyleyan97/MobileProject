@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp>{
       debugShowCheckedModeBanner: false,
       title: 'Final Project',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
         useMaterial3: true,
       ),
       supportedLocales: [
@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onSelected: (Locale locale) {
               MyApp.of(context)!.changeLanguage(locale);
             },
-            icon: Icon(Icons.language),
+            icon: Icon(Icons.language_sharp),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<Locale>>[
               PopupMenuItem<Locale>(
                 value: const Locale('en', 'CA'),
@@ -105,7 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               PopupMenuItem<Locale>(
                 value: const Locale('zh', 'Hans'),
-                child: Text('简体中文'),
+                child: Text('中文'),
               ),
             ],
           ),
@@ -115,15 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
 
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
               onPressed: customerListButtonClicked,
               child:Text(
                 AppLocalizations.of(context).translate('customer_list'),
                 style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.blue,
+                  fontSize: 30.0,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -132,8 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child:Text(
                 AppLocalizations.of(context).translate('airplane_list'),
                 style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.blue,
+                  fontSize: 30.0,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -142,8 +142,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child:Text(
                 AppLocalizations.of(context).translate('flight_list'),
                 style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.blue,
+                  fontSize: 30.0,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -152,8 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child:Text(
                 AppLocalizations.of(context).translate('reservation_list'),
                 style: TextStyle(
-                  fontSize: 40.0,
-                  color: Colors.blue,
+                  fontSize: 30.0,
+                  color: Colors.black,
                 ),
               ),
             ),
