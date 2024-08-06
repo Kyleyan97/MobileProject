@@ -472,25 +472,27 @@ class _$ReservationDAO extends ReservationDAO {
   final DeletionAdapter<Reservation> _reservationDeletionAdapter;
 
   @override
-  Future<List<Reservation>> getAllReservation() async {
+  Future<List<Reservation>> getAllReservations() async {
     return _queryAdapter.queryList('SELECT * FROM Reservation',
         mapper: (Map<String, Object?> row) => Reservation(
-            row['id'] as int,
-            row['customerId'] as int,
-            row['flightId'] as int,
-            _dateTimeConverter.decode(row['reservationDate'] as String),
-            row['notes'] as String));
+            id: row['id'] as int,
+            customerId: row['customerId'] as int,
+            flightId: row['flightId'] as int,
+            reservationDate:
+                _dateTimeConverter.decode(row['reservationDate'] as String),
+            notes: row['notes'] as String));
   }
 
   @override
-  Future<Reservation?> findReservation(int id) async {
+  Future<Reservation?> findReservationById(int id) async {
     return _queryAdapter.query('SELECT * FROM Reservation WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Reservation(
-            row['id'] as int,
-            row['customerId'] as int,
-            row['flightId'] as int,
-            _dateTimeConverter.decode(row['reservationDate'] as String),
-            row['notes'] as String),
+            id: row['id'] as int,
+            customerId: row['customerId'] as int,
+            flightId: row['flightId'] as int,
+            reservationDate:
+                _dateTimeConverter.decode(row['reservationDate'] as String),
+            notes: row['notes'] as String),
         arguments: [id]);
   }
 
