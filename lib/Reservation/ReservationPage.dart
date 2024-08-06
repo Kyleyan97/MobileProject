@@ -209,9 +209,27 @@ class ReservationPageState extends State<ReservationPage> {
   /// Loads dummy customer data.
   void _loadDummyCustomers(){
     customers = [
-      Customer(1,'Guan','Robin','01 rue du XXX, Gatineau', DateTime(1990, 1, 1) ),
-      Customer(2,'Sandy','Liang','02 rue du XXX, Gatineau', DateTime(1991, 1, 1) ),
-      Customer(3,'Linda','He','03 rue du XXX, Gatineau', DateTime(1992, 1, 1) ),
+      Customer(
+         1,
+         'Guan',
+        'Robin',
+        '01 rue du XXX, Gatineau',
+         DateTime(1990, 1, 1),
+      ),
+      Customer(
+         2,
+        'Sandy',
+         'Liang',
+         '02 rue du XXX, Gatineau',
+       DateTime(1991, 1, 1),
+      ),
+      Customer(
+         3,
+        'Linda',
+         'He',
+        '03 rue du XXX, Gatineau',
+         DateTime(1992, 1, 1),
+      ),
     ];
   }
 
@@ -253,7 +271,13 @@ class ReservationPageState extends State<ReservationPage> {
             var reservation = reservations[rowNum];
             var customer = customers.firstWhere(
                   (customer) => customer.id == reservation.customerId,
-              orElse: () => Customer(-1, 'Unknown', 'Unknown', 'Unknown Address', DateTime(1900, 1, 1)),
+              orElse: () => Customer(
+                 -1,
+                 'Unknown',
+                'Unknown',
+                 'Unknown Address',
+                DateTime(1900, 1, 1),
+              ),
             );
 
             var flight = flights.firstWhere(
@@ -353,7 +377,13 @@ class ReservationPageState extends State<ReservationPage> {
     } else {
       var selectedCustomer = customers.firstWhere(
             (customer) => customer.id == selectedReservation!.customerId,
-        orElse: () => Customer(-1, 'Unknown', 'Unknown', 'Unknown Address', DateTime(1900, 1, 1)),
+        orElse: () =>Customer(
+           -1,
+         'Unknown',
+           'Unknown',
+          'Unknown Address',
+           DateTime(1900, 1, 1),
+        ),
       );
 
       var selectedFlight = flights.firstWhere(

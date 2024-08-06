@@ -1,3 +1,5 @@
+// CustomerListPage.dart
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For date formatting
 import 'package:final_project/CustomerList/Customer.dart';
@@ -90,6 +92,15 @@ class _CustomerListPageState extends State<CustomerListPage> {
         _firstnameController.text.isNotEmpty &&
         _addressController.text.isNotEmpty &&
         _birthday != null) {
+      //final uuid= build();
+
+    // Check if customer ID already exists
+    final existingCustomer = await _customerDAO.findCustomer(Customer.ID);
+    if (existingCustomer != null) {
+    showAlertDialog("Error", "Customer ID already exists.");
+    return;
+    }
+
       final newCustomer = Customer(
         Customer.ID++,
         _lastnameController.text,
@@ -254,94 +265,6 @@ class _CustomerListPageState extends State<CustomerListPage> {
         ),
       ),
     );
-  }
-
-  Widget customerDetails() {
-    if (selectedCustomer == null) {
-      return Center(
-        child: Text(AppLocalizations.of(context).translate('no_customer_selected'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue)),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(AppLocalizations.of(context).translate('customer_detail'), style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold)),
-            Table(
-              columnWidths: const {
-                0: FixedColumnWidth(150.0),
-                1: FlexColumnWidth(),
-              },
-              children: [
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('last_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
-                    Text('${selectedCustomer!.lastname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('first_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
-                    Text('${selectedCustomer!.firstname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('address'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
-                    Text('${selectedCustomer!.address}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Text(AppLocalizations.of(context).translate('birthday'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
-                    Text('${DateFormat.yMd().format(selectedCustomer!.birthday)}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
-                  ],
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      isUpdatingCustomer = true;
-                      _customerToUpdateId = selectedCustomer!.id;
-                      _lastnameController.text = selectedCustomer!.lastname;
-                      _firstnameController.text = selectedCustomer!.firstname;
-                      _addressController.text = selectedCustomer!.address;
-                      _birthday = selectedCustomer!.birthday;
-                    });
-                  },
-                  child: Text(AppLocalizations.of(context).translate('update_customer')),
-                ),
-                ElevatedButton(
-                  onPressed: () => _removeCustomer(selectedCustomer!),
-                  child: Text(AppLocalizations.of(context).translate('delete_customer')),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedCustomer = null;
-                    });
-                  },
-                  child: Text(AppLocalizations.of(context).translate('return_to_list')),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
-  }
-
-  void _removeCustomer(Customer customer) async {
-    await _customerDAO.deleteCustomer(customer);
-    _loadCustomers();
-    setState(() {
-      selectedCustomer = null;
-    });
   }
 
   Widget addOrUpdateCustomerForm() {
@@ -687,5 +610,93 @@ class _CustomerListPageState extends State<CustomerListPage> {
         );
       },
     );
+  }
+
+  Widget customerDetails() {
+    if (selectedCustomer == null) {
+      return Center(
+        child: Text(AppLocalizations.of(context).translate('no_customer_selected'), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blue)),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(AppLocalizations.of(context).translate('customer_detail'), style: const TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold)),
+            Table(
+              columnWidths: const {
+                0: FixedColumnWidth(150.0),
+                1: FlexColumnWidth(),
+              },
+              children: [
+                TableRow(
+                  children: [
+                    Text(AppLocalizations.of(context).translate('last_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.lastname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(AppLocalizations.of(context).translate('first_name'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.firstname}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(AppLocalizations.of(context).translate('address'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${selectedCustomer!.address}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    Text(AppLocalizations.of(context).translate('birthday'), style: const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold), textAlign: TextAlign.left),
+                    Text('${DateFormat.yMd().format(selectedCustomer!.birthday)}', style: const TextStyle(color: Colors.black, fontSize: 16), textAlign: TextAlign.left),
+                  ],
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      isUpdatingCustomer = true;
+                      _customerToUpdateId = selectedCustomer!.id;
+                      _lastnameController.text = selectedCustomer!.lastname;
+                      _firstnameController.text = selectedCustomer!.firstname;
+                      _addressController.text = selectedCustomer!.address;
+                      _birthday = selectedCustomer!.birthday;
+                    });
+                  },
+                  child: Text(AppLocalizations.of(context).translate('update_customer')),
+                ),
+                ElevatedButton(
+                  onPressed: () => _removeCustomer(selectedCustomer!),
+                  child: Text(AppLocalizations.of(context).translate('delete_customer')),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedCustomer = null;
+                    });
+                  },
+                  child: Text(AppLocalizations.of(context).translate('return_to_list')),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
+  void _removeCustomer(Customer customer) async {
+    await _customerDAO.deleteCustomer(customer);
+    _loadCustomers();
+    setState(() {
+      selectedCustomer = null;
+    });
   }
 }

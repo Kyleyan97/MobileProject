@@ -21,4 +21,18 @@ class DateTimeConverter extends TypeConverter<DateTime, String> {
   String encode(DateTime value) {
     return value.toIso8601String();
   }
+
+  @override
+  DateTime fromSql(String fromDb) {
+    // Convert from SQLite string to DateTime
+    return DateTime.parse(fromDb);
+  }
+
+  @override
+  String toSql(DateTime value) {
+    // Convert from DateTime to SQLite string
+    return value.toIso8601String();
+  }
+
+
 }

@@ -1,7 +1,5 @@
+import 'package:final_project/DateTimeConverter.dart';
 import 'package:floor/floor.dart';
-
-import '../DateTimeConverter.dart';
-
 
 @entity
 class Customer {
