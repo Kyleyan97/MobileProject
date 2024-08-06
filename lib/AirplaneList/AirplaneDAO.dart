@@ -1,6 +1,6 @@
 import 'package:floor/floor.dart';
 import 'Airplane.dart';
-
+///airplane related database operation
 @dao
 abstract class AirplaneDAO {
 

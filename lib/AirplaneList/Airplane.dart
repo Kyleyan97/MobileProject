@@ -1,5 +1,5 @@
 import 'package:floor/floor.dart';
-
+///represents airplane and it's attributes
 @entity
 class Airplane {
   static int ID = 1;
