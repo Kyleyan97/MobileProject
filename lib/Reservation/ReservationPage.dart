@@ -1,4 +1,3 @@
-
 import 'package:final_project/AirplaneList/AirplaneDAO.dart';
 import 'package:final_project/CustomerList/CustomerDAO.dart';
 import 'package:final_project/FlightList/FlightDAO.dart';
@@ -194,7 +193,6 @@ class ReservationPageState extends State<ReservationPage> {
       reservations.clear(); // 先清空列表
       reservations.addAll(allReservations);
     });
-
   }
 
   /// Shows a snack bar with a welcome message.
@@ -203,34 +201,6 @@ class ReservationPageState extends State<ReservationPage> {
       content: Text(AppLocalizations.of(context).translate('welcome_to_reservation_list')),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-
-  /// Loads dummy customer data.
-  void _loadDummyCustomers(){
-    customers = [
-      Customer(1,'Guan','Robin','01 rue du XXX, Gatineau', DateTime(1990, 1, 1) ),
-      Customer(2,'Sandy','Liang','02 rue du XXX, Gatineau', DateTime(1991, 1, 1) ),
-      Customer(3,'Linda','He','03 rue du XXX, Gatineau', DateTime(1992, 1, 1) ),
-    ];
-  }
-
-  /// Loads dummy flight data.
-  void _loadDummyFlights(){
-    flights = [
-      Flight(101, 'AC001', 'Shenzhen', 'Beijing', DateTime(2024, 7, 7, 10, 30), DateTime(2024, 7, 7, 13, 30), 1),
-      Flight(102, 'AC002', 'Shanghai', 'Beijing', DateTime(2024, 7, 8, 11, 00), DateTime(2024, 7, 8, 14, 00), 2),
-      Flight(103, 'AC003', 'Guangzhou', 'Beijing', DateTime(2024, 7, 9, 12, 00), DateTime(2024, 7, 9, 15, 00), 3),
-    ];
-  }
-
-  /// Loads dummy airplane data.
-  void _loadDummyAirplanes(){
-    airplanes = [
-      Airplane(1, 'Boeing 737', 160, 870, 5800),
-      Airplane(2, 'Airbus A320', 180, 828, 6100),
-      Airplane(3, 'Boeing 777', 396, 905, 15700),
-    ];
   }
 
   /// Widget for displaying the list of reservations.
@@ -284,57 +254,53 @@ class ReservationPageState extends State<ReservationPage> {
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: rowNum % 2 == 0
-                            ? Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1)
-                            : Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2), // 设置背景颜色
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(5),
+                        decoration: BoxDecoration(
+                          color: rowNum % 2 == 0
+                              ? Theme.of(context).colorScheme.inversePrimary.withOpacity(0.1)
+                              : Theme.of(context).colorScheme.inversePrimary.withOpacity(0.2), // 设置背景颜色
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Text("${rowNum + 1}"),
                                 ),
-                                child: Text("${rowNum + 1}"),
-                              ),
-                              const SizedBox(width: 5,),
-                              Text(
-                                "$formattedDate ${customer
-                                    .firstname} ${customer.lastname} ${flight
-                                    .flightNumber}",
-                                style: const TextStyle(
-                                  fontSize: 18, // Large font size
-                                  color: Colors.black, // Black color
+                                const SizedBox(width: 5,),
+                                Text(
+                                  "$formattedDate ${customer.firstname} ${customer.lastname} ${flight.flightNumber}",
+                                  style: const TextStyle(
+                                    fontSize: 18, // Large font size
+                                    color: Colors.black, // Black color
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          // Second line with smaller text
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(width: 50,),
-                              Text(
-                                "${flight.departureCity} - ${flight
-                                    .destinationCity}  $formattedDepartTime - $formattedArrivalTime",
-                                style: const TextStyle(
-                                  fontSize: 14, // Smaller font size
-                                  color: Colors
-                                      .grey, // Grey color for less emphasis
+                            // Second line with smaller text
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 50,),
+                                Text(
+                                  "${flight.departureCity} - ${flight.destinationCity}  $formattedDepartTime - $formattedArrivalTime",
+                                  style: const TextStyle(
+                                    fontSize: 14, // Smaller font size
+                                    color: Colors.grey, // Grey color for less emphasis
+                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
+                              ],
+                            )
+                          ],
+                        )
                     )
                 )
             );
@@ -472,163 +438,163 @@ class ReservationPageState extends State<ReservationPage> {
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child:
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(AppLocalizations.of(context).translate('reservation_create_title'),style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context).translate('prompt_reservation_date_selection'),style: const TextStyle(color: Colors.blue)),
-              ),
-              ListTile(
-                title: Text(_selectedDate != null ? "${_selectedDate!.toLocal()}".split(' ')[0] : AppLocalizations.of(context).translate('no_date_selected')),
-                trailing: const Icon(Icons.calendar_today),
-                onTap: () async {
-                  final DateTime? picked = await showDatePicker(
-                    context: context,
-                    initialDate: _selectedDate!, // Refer to step 1
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(2025),
-                  );
-                  if (picked != null && picked != _selectedDate)
-                    setState(() {
-                      _selectedDate = picked;
-                    });
-                },
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context).translate('prompt_customer_selection'),style: const TextStyle(color: Colors.blue)),
-              ),
-
-              DropdownButton<int>(
-                isExpanded: true,
-                value: _selectedCustomerId,
-                hint: Text(AppLocalizations.of(context).translate('prompt_customer_selection')),
-                onChanged: (int? newValue) {
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(AppLocalizations.of(context).translate('reservation_create_title'),style: const TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold),),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(AppLocalizations.of(context).translate('prompt_reservation_date_selection'),style: const TextStyle(color: Colors.blue)),
+            ),
+            ListTile(
+              title: Text(_selectedDate != null ? "${_selectedDate!.toLocal()}".split(' ')[0] : AppLocalizations.of(context).translate('no_date_selected')),
+              trailing: const Icon(Icons.calendar_today),
+              onTap: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: _selectedDate!, // Refer to step 1
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2025),
+                );
+                if (picked != null && picked != _selectedDate)
                   setState(() {
-                    _selectedCustomerId = newValue;
-                    debugPrint('Selected Customer ID: $_selectedCustomerId');
+                    _selectedDate = picked;
                   });
-                },
-                items: customers.map((Customer customer) {
-                  return DropdownMenuItem<int>(
-                    value: customer.id,
-                    child: Text("${customer.firstname} ${customer.lastname}"),
-                  );
-                }).toList(),
-              ),
+              },
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(AppLocalizations.of(context).translate('prompt_customer_selection'),style: const TextStyle(color: Colors.blue)),
+            ),
 
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context).translate('prompt_flight_selection'),style: const TextStyle(color: Colors.blue)),
-              ),
-              DropdownButton<int>(
-                isExpanded: true,
-                value: _selectedFlightId,
-                hint: Text(AppLocalizations.of(context).translate('prompt_flight_selection')),
-                onChanged: (int? newValue){
-                  setState(() {
-                    _selectedFlightId = newValue;
-                  });
-                },
-                items: flights.map((Flight flight) {
-                  return DropdownMenuItem<int>(
-                    value: flight.id,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          flight.flightNumber + ": " + flight.departureCity + " to " + flight.destinationCity,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+            DropdownButton<int>(
+              isExpanded: true,
+              value: _selectedCustomerId,
+              hint: Text(AppLocalizations.of(context).translate('prompt_customer_selection')),
+              onChanged: (int? newValue) {
+                setState(() {
+                  _selectedCustomerId = newValue;
+                  debugPrint('Selected Customer ID: $_selectedCustomerId');
+                });
+              },
+              items: customers.map((Customer customer) {
+                return DropdownMenuItem<int>(
+                  value: customer.id,
+                  child: Text("${customer.firstname} ${customer.lastname}"),
+                );
+              }).toList(),
+            ),
+
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(AppLocalizations.of(context).translate('prompt_flight_selection'),style: const TextStyle(color: Colors.blue)),
+            ),
+            DropdownButton<int>(
+              isExpanded: true,
+              value: _selectedFlightId,
+              hint: Text(AppLocalizations.of(context).translate('prompt_flight_selection')),
+              onChanged: (int? newValue){
+                setState(() {
+                  _selectedFlightId = newValue;
+                });
+              },
+              items: flights.map((Flight flight) {
+                return DropdownMenuItem<int>(
+                  value: flight.id,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        flight.flightNumber + ": " + flight.departureCity + " to " + flight.destinationCity,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
                         ),
-                        Text(
-                          flight.departureTime.toString().substring(11, 16) + " - " + flight.arrivalTime.toString().substring(11, 16),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
+                      ),
+                      Text(
+                        flight.departureTime.toString().substring(11, 16) + " - " + flight.arrivalTime.toString().substring(11, 16),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
                         ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                selectedItemBuilder: (BuildContext context) {
-                  return flights.map<Widget>((Flight flight) {
-                    if (flight.id == _selectedFlightId) {
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              flight.flightNumber + ": " + flight.departureCity + " to " + flight.destinationCity,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+              selectedItemBuilder: (BuildContext context) {
+                return flights.map<Widget>((Flight flight) {
+                  if (flight.id == _selectedFlightId) {
+                    return Container(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            flight.flightNumber + ": " + flight.departureCity + " to " + flight.destinationCity,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
                             ),
-                            Text(
-                              flight.departureTime.toString().substring(11, 16) + " - " + flight.arrivalTime.toString().substring(11, 16),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
+                          ),
+                          Text(
+                            flight.departureTime.toString().substring(11, 16) + " - " + flight.arrivalTime.toString().substring(11, 16),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
                             ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Container(
-                        alignment: Alignment.centerLeft,
-                        child: Text(AppLocalizations.of(context).translate('prompt_flight_selection')),
-                      );
-                    }
-                  }).toList();
-                },
-              ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(AppLocalizations.of(context).translate('prompt_flight_selection')),
+                    );
+                  }
+                }).toList();
+              },
+            ),
 
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(AppLocalizations.of(context).translate('prompt_notes_input'),style: const TextStyle(color: Colors.blue)),
-              ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(AppLocalizations.of(context).translate('prompt_notes_input'),style: const TextStyle(color: Colors.blue)),
+            ),
 
-              // Notes输入框
-              TextField(
-                controller: _notesController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context).translate('prompt_notes_input'),
-                  border: OutlineInputBorder(),
-                ),
-                maxLines: null,
+            // Notes输入框
+            TextField(
+              controller: _notesController,
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context).translate('prompt_notes_input'),
+                border: OutlineInputBorder(),
               ),
-              ElevatedButton(
-                onPressed: (){
-                  bool isValid = true;
-                  if(_selectedCustomerId == null){
-                    _showAlertDialog(AppLocalizations.of(context).translate('prompt_customer_selection'));
-                    isValid = false;
-                  }
-                  if(_selectedFlightId == null){
-                    _showAlertDialog(AppLocalizations.of(context).translate('prompt_flight_selection'));
-                    isValid = false;
-                  }
-                  if(_selectedDate == null){
-                    _showAlertDialog(AppLocalizations.of(context).translate('prompt_reservation_date_selection'));
-                    isValid = false;
-                  }
-                  if (!isValid) {
-                    return; // If any validation failed, stop execution
-                  }
-                  confirmSaveOperation();
-                },
-                child: Text(AppLocalizations.of(context).translate('save')),
-              ),
-            ],
-          ),
+              maxLines: null,
+            ),
+            ElevatedButton(
+              onPressed: (){
+                bool isValid = true;
+                if(_selectedCustomerId == null){
+                  _showAlertDialog(AppLocalizations.of(context).translate('prompt_customer_selection'));
+                  isValid = false;
+                }
+                if(_selectedFlightId == null){
+                  _showAlertDialog(AppLocalizations.of(context).translate('prompt_flight_selection'));
+                  isValid = false;
+                }
+                if(_selectedDate == null){
+                  _showAlertDialog(AppLocalizations.of(context).translate('prompt_reservation_date_selection'));
+                  isValid = false;
+                }
+                if (!isValid) {
+                  return; // If any validation failed, stop execution
+                }
+                confirmSaveOperation();
+              },
+              child: Text(AppLocalizations.of(context).translate('save')),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -659,7 +625,7 @@ class ReservationPageState extends State<ReservationPage> {
               onTap: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
-                  initialDate: _selectedUpdateDate,
+                  initialDate: _selectedUpdateDate!,
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2025),
                 );
@@ -908,13 +874,13 @@ class ReservationPageState extends State<ReservationPage> {
       ),
       body: responsiveLayout(),
       floatingActionButton:((width > height) && (width > 720)  || (width <= height && selectedReservation == null)) && !isAddingNewReservation && !isUpdatingReservation
-      ?
+          ?
       FloatingActionButton(
         onPressed: pressAddReservation,
         tooltip: AppLocalizations.of(context).translate('reservation_create_title'),
         child: const Icon(Icons.add),
       )
-      :
+          :
       null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat, // Center the FAB// Center the FAB
     );
