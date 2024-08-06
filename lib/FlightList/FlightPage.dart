@@ -7,7 +7,7 @@ import '../Database.dart';
 import 'FlightDetailPage.dart';
 import 'package:encrypted_shared_preferences/encrypted_shared_preferences.dart';
 
-/// This class represents the flight page.
+/// The FlightPage widget displays a list of flights and provides options to add, update, or delete flights.
 class FlightPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,7 +15,7 @@ class FlightPage extends StatefulWidget {
   }
 }
 
-/// State class for [FlightPage].
+/// The state class for [FlightPage], managing the state of the flight list and related actions.
 class _FlightListPageState extends State<FlightPage> {
   late EncryptedSharedPreferences savedData;
   late FlightDAO myFlightDAO;
