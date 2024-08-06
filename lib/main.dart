@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'AirplaneList/AirplaneListPage.dart';
+import 'AirplaneList/airplane_list_page.dart';
 import 'AppLocalizations.dart';
 import 'CustomerList/CustomerListPage.dart';
 import 'FlightList/FlightPage.dart';
