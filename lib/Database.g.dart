@@ -389,7 +389,7 @@ class _$FlightDAO extends FlightDAO {
   }
 
   @override
-  Future<Flight?> findFlightById(int id) async {
+  Future<Flight?> findFlightById(int flightId) async {
     return _queryAdapter.query('SELECT * FROM Flight WHERE id = ?1',
         mapper: (Map<String, Object?> row) => Flight(
             row['id'] as int,
@@ -399,22 +399,22 @@ class _$FlightDAO extends FlightDAO {
             _dateTimeConverter.decode(row['departureTime'] as String),
             _dateTimeConverter.decode(row['arrivalTime'] as String),
             row['airplaneId'] as int),
-        arguments: [id]);
+        arguments: [flightId]);
   }
 
   @override
-  Future<void> insertFlight(Flight flight) async {
-    await _flightInsertionAdapter.insert(flight, OnConflictStrategy.abort);
+  Future<void> insertFlight(Flight newFlight) async {
+    await _flightInsertionAdapter.insert(newFlight, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateFlight(Flight flight) async {
-    await _flightUpdateAdapter.update(flight, OnConflictStrategy.abort);
+  Future<void> updateFlight(Flight updatedFlight) async {
+    await _flightUpdateAdapter.update(updatedFlight, OnConflictStrategy.abort);
   }
 
   @override
-  Future<int> deleteFlight(Flight flight) {
-    return _flightDeletionAdapter.deleteAndReturnChangedRows(flight);
+  Future<int> deleteFlight(Flight flightToRemove) {
+    return _flightDeletionAdapter.deleteAndReturnChangedRows(flightToRemove);
   }
 }
 
