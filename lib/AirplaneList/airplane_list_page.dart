@@ -154,7 +154,6 @@ class _AirplaneListPageState extends State<AirplaneListPage> {
   }
 
   /// Widget for displaying the list of airplanes.
-  /// Widget for displaying the list of airplanes.
   Widget airplaneList() {
     return Padding(
       padding: const EdgeInsets.all(1.0),
