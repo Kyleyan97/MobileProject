@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import '../AppLocalizations.dart';
 import '../FlightList/Flight.dart';
 
-/// This class represents the flight detail page.
+/// The FlightDetailPage class represents a page that displays detailed information about a flight.
+///
+/// The [flight] parameter is the flight whose details are being displayed.
+/// The [onUpdateFlight] callback is invoked when the flight needs to be updated.
+/// The [onDeleteFlight] callback is invoked when the flight needs to be deleted.
+/// The [onReturnToList] callback is invoked to return to the flight list.
 class FlightDetailPage extends StatelessWidget {
   final Flight flight;
   final Function(Flight) onUpdateFlight;
