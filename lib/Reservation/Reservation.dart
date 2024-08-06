@@ -23,7 +23,7 @@ class Reservation {
   /// The date and time of the reservation.
   ///
   /// This uses a custom [DateTimeConverter] to store date and time in the database.
-  //@TypeConverters([DateTimeConverter])
+  @TypeConverters([DateTimeConverter])
   DateTime reservationDate;
 
   /// Additional notes or information about the reservation.
