@@ -8,6 +8,8 @@ import 'package:final_project/AppLocalizations.dart';
 import 'package:final_project/main.dart';
 import 'dart:async';
 
+/// This class represents the CustomerListPage widget, which displays a list of customers
+/// and allows the user to add, update, or delete customers.
 class CustomerListPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,6 +17,9 @@ class CustomerListPage extends StatefulWidget {
   }
 }
 
+/// This class manages the state of the CustomerListPage widget. It initializes the database,
+/// loads customers, and handles adding, updating, and deleting customers. It also saves and
+/// loads data from EncryptedSharedPreferences.
 class _CustomerListPageState extends State<CustomerListPage> {
   late EncryptedSharedPreferences savedData;
   late CustomerDAO _customerDAO;
