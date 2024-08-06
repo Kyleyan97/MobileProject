@@ -21,4 +21,15 @@ class Customer {
       ID = id + 1;
     }
   }
-}
+
+
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'lastname': lastname,
+    'firstname': firstname,
+    'address': address,
+    'birthday': birthday.toIso8601String(),
+  };
+
+  }

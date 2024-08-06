@@ -1,6 +1,7 @@
 import 'package:final_project/DateTimeConverter.dart';
 import 'package:floor/floor.dart';
 
+@TypeConverters([DateTimeConverter])
 /// Represents a database Flight entity.
 @entity
 class Flight {
@@ -16,7 +17,9 @@ class Flight {
   final String flightNumber;
   final String departureCity;
   final String destinationCity;
+  @TypeConverters([DateTimeConverter])  // Specify the converter
   final DateTime departureTime;
+  @TypeConverters([DateTimeConverter])  // Specify the converter
   final DateTime arrivalTime;
   final int airplaneId;
 
