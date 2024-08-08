@@ -10,6 +10,15 @@ import 'package:final_project/AppLocalizations.dart';
 import 'package:final_project/main.dart';
 import 'dart:async';
 
+/// A page that displays a list of customers and provides functionality
+/// for adding, updating, and deleting customer records.
+///
+/// This page utilizes a `ScrollController` for handling scroll events,
+/// `TextEditingController` instances for managing input fields, and
+/// `StreamController` instances for handling dynamic suggestions
+/// for the customer's first name, last name, and address. It also
+/// integrates with an encrypted shared preferences store and a local
+/// database to manage customer data.
 class CustomerListPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -18,22 +27,44 @@ class CustomerListPage extends StatefulWidget {
 }
 
 class _CustomerListPageState extends State<CustomerListPage> {
+  /// EncryptedSharedPreferences instance used for secure storage of data.
   late EncryptedSharedPreferences savedData;
+  /// Data Access Object (DAO) for interacting with customer data in the database.
   late CustomerDAO _customerDAO;
+  /// List of customers retrieved from the database.
   List<Customer> _customers = [];
+  /// Controller for handling scroll events.
   late ScrollController _scrollController;
+  /// The currently selected customer.
   Customer? selectedCustomer;
+  /// Flag indicating if a new customer is being added.
   bool isAddingNewCustomer = false;
+
+  /// Flag indicating if an existing customer is being updated.
   bool isUpdatingCustomer = false;
+
+  /// Controller for managing the last name input field.
   late TextEditingController _lastnameController;
+
+  /// Controller for managing the first name input field.
   late TextEditingController _firstnameController;
+
+  /// Controller for managing the address input field.
   late TextEditingController _addressController;
+
+  /// Selected birthday of the customer.
   DateTime? _birthday;
+
+  /// ID of the customer being updated.
   int? _customerToUpdateId;
 
-  // Add separate StreamControllers for first name, last name, and address suggestions
+  /// Controller for handling first name suggestions.
   StreamController<List<String>> _firstNameSuggestionsController = StreamController<List<String>>();
+
+  /// Controller for handling last name suggestions.
   StreamController<List<String>> _lastNameSuggestionsController = StreamController<List<String>>();
+
+  /// Controller for handling address suggestions.
   StreamController<List<String>> _addressSuggestionsController = StreamController<List<String>>();
 
   @override
@@ -61,23 +92,26 @@ class _CustomerListPageState extends State<CustomerListPage> {
     _addressSuggestionsController.close();
     super.dispose();
   }
-
+  /// Initializes the database and sets up the CustomerDAO instance.
   void initDatabase() async {
     final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
     _customerDAO = database.customerDAO;
     _loadCustomers();
   }
 
+  /// Initializes the EncryptedSharedPreferences instance.
   void initEncryptedSharedPreferences() async {
     savedData = EncryptedSharedPreferences();
   }
 
+  /// Loads the list of customers from the database and updates suggestions.
   void _loadCustomers() async {
     _customers = await _customerDAO.getAllCustomers();
     _updateNameSuggestions();
     setState(() {});
   }
 
+  /// Updates the suggestions for first names, last names, and addresses.
   void _updateNameSuggestions() {
     List<String> firstNames = _customers.map((customer) => customer.firstname).toList();
     List<String> lastNames = _customers.map((customer) => customer.lastname).toList();
@@ -87,6 +121,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     _addressSuggestionsController.add(addresses);
   }
 
+  /// Adds a new customer to the database.
   void _addCustomer() async {
     if (_lastnameController.text.isNotEmpty &&
         _firstnameController.text.isNotEmpty &&
@@ -122,6 +157,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     }
   }
 
+  /// Clears the input fields and resets the birthday.
   void clearInputFields() {
     _lastnameController.clear();
     _firstnameController.clear();
@@ -129,6 +165,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     _birthday = null;
   }
 
+  /// Displays an alert dialog with the specified title and message.
   void showAlertDialog(String title, String message) {
     showDialog(
       context: context,
@@ -149,6 +186,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     );
   }
 
+  /// Displays a snack bar with a welcome message.
   void showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -157,6 +195,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     );
   }
 
+  /// Builds the customer list widget.
   Widget customerList() {
     return Padding(
       padding: const EdgeInsets.all(1.0),
@@ -267,6 +306,7 @@ class _CustomerListPageState extends State<CustomerListPage> {
     );
   }
 
+  /// Builds the form for adding or updating a customer.
   Widget addOrUpdateCustomerForm() {
     return SingleChildScrollView(
       child: Padding(
