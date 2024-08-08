@@ -59,7 +59,7 @@ class _FlightListPageState extends State<FlightPage> {
 
   /// Initialize the database and load flights.
   void initDb() async {
-    final database = await $FloorAppDatabase.databaseBuilder('database.db').build();
+    final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
     myFlightDAO = database.flightDAO;
     loadFlights();
   }
