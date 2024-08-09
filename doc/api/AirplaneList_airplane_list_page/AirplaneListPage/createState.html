@@ -29,7 +29,7 @@
   <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">final_project</a></li>
-    <li><a href="../../AirplaneList_airplane_list_page/AirplaneList_airplane_list_page-library.html">AirplaneList\airplane_list_page.dart</a></li>
+    <li><a href="../../AirplaneList_airplane_list_page/AirplaneList_airplane_list_page-library.html">AirplaneList&#47;airplane_list_page.dart</a></li>
     <li><a href="../../AirplaneList_airplane_list_page/AirplaneListPage-class.html">AirplaneListPage</a></li>
     <li class="self-crumb">createState method</li>
   </ol>
@@ -68,7 +68,7 @@
     </ol>
   </div>
 
-<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/widgets/StatefulWidget-class.html">StatefulWidget</a></span>&gt;</span></span>
+<span class="returntype"><a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../AirplaneList_airplane_list_page/AirplaneListPage-class.html">AirplaneListPage</a></span>&gt;</span></span>
 <span class="name ">createState</span>(<wbr>)
 
       <div class="features"><span class="feature">override</span></div>
@@ -76,19 +76,7 @@
     </section>
     
 <section class="desc markdown">
-  <p>Creates the mutable state for this widget at a given location in the tree.</p>
-<p>Subclasses should override this method to return a newly created
-instance of their associated <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> subclass:</p>
-<pre class="language-dart"><code class="language-dart">@override
-State&lt;SomeWidget&gt; createState() =&gt; _SomeWidgetState();
-</code></pre>
-<p>The framework can call this method multiple times over the lifetime of
-a <code>StatefulWidget</code>. For example, if the widget is inserted into the tree
-in multiple locations, the framework will create a separate <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object
-for each location. Similarly, if the widget is removed from the tree and
-later inserted into the tree again, the framework will call <a href="../../AirplaneList_airplane_list_page/AirplaneListPage/createState.html">createState</a>
-again to create a fresh <a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> object, simplifying the lifecycle of
-<a href="https://api.flutter.dev/flutter/widgets/State-class.html">State</a> objects.</p>
+  <p>Creates the mutable state for this widget, represented by <a href="../../AirplaneList_AirplaneListState/AirplaneListState-class.html">AirplaneListState</a>.</p>
 </section>
 
 
@@ -96,9 +84,7 @@ again to create a fresh <a href="https://api.flutter.dev/flutter/widgets/State-c
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
-State&lt;StatefulWidget&gt; createState() {
-  return AirplaneListState();
-}</code></pre>
+State&lt;AirplaneListPage&gt; createState() =&gt; AirplaneListState();</code></pre>
 </section>
 
 
