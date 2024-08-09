@@ -9,18 +9,39 @@ import 'Airplane.dart';
 import 'AirplaneDAO.dart';
 import 'airplane_list_page.dart';
 
+/// The state class for [AirplaneListPage], responsible for managing the state and UI of the airplane list page.
+///
+/// This class handles the initialization of the database, loading of airplanes, and managing user interactions
+/// such as adding, updating, and deleting airplanes.
 class AirplaneListState extends State<AirplaneListPage> {
+  /// Manages encrypted shared preferences for securely storing persistent data.
   late EncryptedSharedPreferences savedData;
+
+  /// Data access object for performing CRUD operations on the airplane database.
   late AirplaneDAO myAirplaneDAO;
+
+  /// A list of airplanes fetched from the database.
   List<Airplane> airplanes = [];
+
+  /// Controller for managing the scroll position of the list view.
   late ScrollController _scrollController;
+
+  /// The currently selected airplane, if any.
   Airplane? selectedAirplane;
+
+  /// Indicates whether a new airplane is being added.
   bool isAddingNewAirplane = false;
+
+  /// Indicates whether an existing airplane is being updated.
   bool isUpdatingAirplane = false;
+
+  /// Text controllers for managing input fields.
   late TextEditingController typeController;
   late TextEditingController passengersController;
   late TextEditingController speedController;
   late TextEditingController distanceController;
+
+  /// The ID of the airplane being updated, if applicable.
   int? _airplaneToUpdateId;
 
   @override
@@ -48,21 +69,25 @@ class AirplaneListState extends State<AirplaneListPage> {
     super.dispose();
   }
 
+  /// Initializes the database and loads the airplanes.
   void initDb() async {
     final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
     myAirplaneDAO = database.airplaneDAO;
     loadAirplanes();
   }
 
+  /// Loads all airplanes from the database and updates the state.
   void loadAirplanes() async {
     airplanes = await myAirplaneDAO.findAllAirplanes();
     setState(() {});
   }
 
+  /// Initializes encrypted shared preferences.
   void initEncryptedSharedPreferences() async {
     savedData = EncryptedSharedPreferences();
   }
 
+  /// Adds a new airplane to the database if all input fields are filled.
   void addAirplane() async {
     if (typeController.text.isNotEmpty &&
         passengersController.text.isNotEmpty &&
@@ -89,6 +114,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     }
   }
 
+  /// Clears all input fields.
   void clearInputFields() {
     typeController.clear();
     passengersController.clear();
@@ -96,6 +122,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     distanceController.clear();
   }
 
+  /// Displays an alert dialog with the given [title] and [message].
   void showAlertDialog(String title, String message) {
     showDialog(
       context: context,
@@ -116,6 +143,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     );
   }
 
+  /// Displays a SnackBar with a welcome message.
   void showSnackBar() {
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -124,6 +152,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     );
   }
 
+  /// Builds the widget displaying the list of airplanes.
   Widget airplaneList() {
     return Padding(
       padding: const EdgeInsets.all(1.0),
@@ -234,6 +263,9 @@ class AirplaneListState extends State<AirplaneListPage> {
     );
   }
 
+  /// Builds the widget displaying the details of the selected airplane.
+  ///
+  /// If no airplane is selected, a message is displayed instead.
   Widget airplaneDetails() {
     if (selectedAirplane == null) {
       return Center(
@@ -314,6 +346,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     }
   }
 
+  /// Deletes the given [airplane] from the database and updates the state.
   void _removeAirplane(Airplane airplane) async {
     await myAirplaneDAO.deleteAirplane(airplane);
     loadAirplanes();
@@ -322,6 +355,10 @@ class AirplaneListState extends State<AirplaneListPage> {
     });
   }
 
+  /// Builds the widget displaying the form for adding or updating an airplane.
+  ///
+  /// The form includes input fields for airplane type, passengers, speed, and distance, and
+  /// a submit button that either adds a new airplane or updates an existing one based on the current state.
   Widget addOrUpdateAirplaneForm() {
     return SingleChildScrollView(
       child: Padding(
@@ -380,6 +417,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     );
   }
 
+  /// Updates the selected airplane in the database if all input fields are filled.
   void updateAirplane() async {
     if (typeController.text.isNotEmpty &&
         passengersController.text.isNotEmpty &&
@@ -414,16 +452,21 @@ class AirplaneListState extends State<AirplaneListPage> {
     var height = size.height;
     var width = size.width;
 
+    /// Builds the responsive layout based on screen size and current state.
+    ///
+    /// This method determines whether to show the airplane list, the airplane details,
+    /// the add/update form, or a combination of these based on the current screen size
+    /// and state of the application.
     Widget responsiveLayout() {
       if (!isAddingNewAirplane && !isUpdatingAirplane) {
         if ((width > height) && (width > 720)) {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Expanded(
-            flex: 1,
-            child: airplaneList(),
-          ),
+              Expanded(
+                flex: 1,
+                child: airplaneList(),
+              ),
               Expanded(
                 flex: 1,
                 child: Padding(
@@ -532,6 +575,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     );
   }
 
+  /// Sets the state to add a new airplane.
   void pressAddAirplane() {
     setState(() {
       isAddingNewAirplane = true;
@@ -539,6 +583,7 @@ class AirplaneListState extends State<AirplaneListPage> {
     });
   }
 
+  /// Displays a usage instructions dialog.
   void _showUsageDialog(BuildContext context) {
     showDialog(
       context: context,
